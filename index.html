@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kaif Hazarika — Physics Researcher, Space &amp; Atmospheric Sciences</title>
+<meta name="description" content="Portfolio of Kaif Hazarika — Physics researcher working on ionospheric and thermospheric dynamics, climate systems, and applied engineering.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg-top:#0b0f1e;
+    --bg-bottom:#1a1030;
+    --surface: rgba(255,255,255,0.045);
+    --surface-solid:#131a2c;
+    --border: rgba(255,255,255,0.09);
+    --text:#f3f5fa;
+    --text-muted:#9099b7;
+    --text-faint:#5c6485;
+    --aurora:#4fd8c4;
+    --aurora-soft: rgba(79,216,196,0.14);
+    --storm:#f2994a;
+    --storm-soft: rgba(242,153,74,0.14);
+    --maxw: 1080px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  }
+
+  body{
+    margin:0;
+    background:
+      radial-gradient(ellipse 900px 500px at 15% -5%, rgba(79,216,196,0.10), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 85% 15%, rgba(242,153,74,0.08), transparent 60%),
+      linear-gradient(180deg, var(--bg-top) 0%, #10162a 35%, #150f28 70%, var(--bg-bottom) 100%);
+    color:var(--text);
+    font-family:'Inter', -apple-system, sans-serif;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  h1,h2,h3,.display{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600;
+    letter-spacing:-0.01em;
+    color:var(--text);
+    margin:0;
+  }
+
+  .mono{
+    font-family:'IBM Plex Mono', monospace;
+    letter-spacing:0.02em;
+  }
+
+  a{color:inherit;}
+  img{max-width:100%; display:block;}
+
+  ::selection{background:var(--aurora); color:#08111a;}
+
+  :focus-visible{
+    outline:2px solid var(--aurora);
+    outline-offset:3px;
+    border-radius:4px;
+  }
+
+  .wrap{
+    max-width:var(--maxw);
+    margin:0 auto;
+    padding:0 28px;
+  }
+
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--aurora);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:18px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:22px; height:1px;
+    background:var(--aurora);
+    display:inline-block;
+  }
+
+  section{
+    padding:104px 0;
+    position:relative;
+  }
+  section:not(.hero)::before{
+    content:"";
+    position:absolute;
+    top:0; left:50%;
+    transform:translateX(-50%);
+    width:min(90%, var(--maxw));
+    height:1px;
+    background:linear-gradient(90deg, transparent, var(--border) 20%, var(--border) 80%, transparent);
+  }
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:100;
+    backdrop-filter:blur(14px);
+    background:rgba(10,13,24,0.55);
+    border-bottom:1px solid var(--border);
+  }
+  nav .wrap{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    height:64px;
+  }
+  .nav-mark{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:1.05rem;
+    text-decoration:none;
+  }
+  .nav-mark span{color:var(--aurora);}
+  .nav-links{
+    display:flex;
+    gap:28px;
+    list-style:none;
+    margin:0; padding:0;
+    font-size:0.86rem;
+    color:var(--text-muted);
+  }
+  .nav-links a{
+    text-decoration:none;
+    transition:color .2s ease;
+  }
+  .nav-links a:hover{color:var(--text);}
+  .nav-cta{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.78rem;
+    padding:8px 16px;
+    border:1px solid var(--aurora);
+    color:var(--aurora);
+    border-radius:100px;
+    text-decoration:none;
+    transition:all .2s ease;
+    white-space:nowrap;
+  }
+  .nav-cta:hover{background:var(--aurora); color:#08111a;}
+
+  .scroll-progress{
+    position:fixed;
+    top:0; left:0;
+    height:2px;
+    width:0%;
+    background:linear-gradient(90deg, var(--aurora), var(--storm));
+    z-index:200;
+    transition:width .05s linear;
+  }
+
+  .nav-toggle{
+    display:none;
+    background:none;
+    border:1px solid var(--border);
+    border-radius:8px;
+    width:38px; height:38px;
+    padding:0;
+    cursor:pointer;
+    position:relative;
+  }
+  .nav-toggle span, .nav-toggle span::before, .nav-toggle span::after{
+    content:"";
+    position:absolute;
+    left:9px; right:9px;
+    height:1.5px;
+    background:var(--text);
+    transition:transform .25s ease, opacity .25s ease, top .25s ease;
+  }
+  .nav-toggle span{top:18px;}
+  .nav-toggle span::before{top:-7px;}
+  .nav-toggle span::after{top:7px;}
+  .nav-toggle.open span{background:transparent;}
+  .nav-toggle.open span::before{top:0; transform:rotate(45deg);}
+  .nav-toggle.open span::after{top:0; transform:rotate(-45deg);}
+
+  .mobile-menu{
+    position:fixed;
+    top:64px; left:0; right:0;
+    background:rgba(10,13,24,0.98);
+    border-bottom:1px solid var(--border);
+    z-index:99;
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .35s ease;
+  }
+  .mobile-menu.open{max-height:400px;}
+  .mobile-menu ul{list-style:none; margin:0; padding:10px 28px 24px; display:flex; flex-direction:column; gap:4px;}
+  .mobile-menu a{
+    text-decoration:none; color:var(--text-muted);
+    padding:12px 0; font-size:1rem;
+    border-bottom:1px solid var(--border);
+  }
+
+  @media (max-width: 760px){
+    .nav-links{display:none;}
+    .nav-toggle{display:block;}
+    .nav-cta{display:none;}
+  }
+  @media (min-width:761px){
+    .mobile-menu{display:none;}
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    min-height:100svh;
+    display:flex;
+    align-items:center;
+    padding-top:64px;
+    overflow:hidden;
+  }
+  .hero .wrap{
+    display:grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap:40px;
+    align-items:center;
+    width:100%;
+  }
+  .hero-orbit{
+    position:absolute;
+    right:-160px; top:50%;
+    transform:translateY(-50%);
+    width:640px; height:640px;
+    opacity:0.55;
+    pointer-events:none;
+  }
+  .hero h1{
+    font-size:clamp(2.6rem, 6vw, 4.4rem);
+    line-height:1.03;
+  }
+  .hero h1 .accent{color:var(--aurora); text-shadow:0 0 36px rgba(79,216,196,0.35);}
+  .hero-role{
+    font-size:1.15rem;
+    color:var(--text-muted);
+    margin-top:18px;
+    max-width:46ch;
+  }
+  .hero-tags{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:28px;
+  }
+  .tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    padding:6px 12px;
+    border-radius:100px;
+    border:1px solid var(--border);
+    color:var(--text-muted);
+    background:var(--surface);
+  }
+  .hero-actions{
+    display:flex;
+    gap:14px;
+    margin-top:38px;
+    flex-wrap:wrap;
+  }
+  .btn{
+    font-family:'Inter', sans-serif;
+    font-weight:500;
+    font-size:0.92rem;
+    padding:13px 24px;
+    border-radius:10px;
+    text-decoration:none;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    transition:transform .2s ease, box-shadow .2s ease, background .2s ease;
+  }
+  .btn-primary{
+    background:var(--aurora);
+    color:#08111a;
+  }
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 10px 30px -10px rgba(79,216,196,0.5);}
+  .btn-ghost{
+    border:1px solid var(--border);
+    color:var(--text);
+    background:var(--surface);
+  }
+  .btn-ghost:hover{border-color:var(--aurora); color:var(--aurora); transform:translateY(-2px);}
+
+  .hero-card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:26px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.82rem;
+    color:var(--text-muted);
+    position:relative;
+  }
+  .hero-card .row{display:flex; justify-content:space-between; padding:7px 0; border-bottom:1px dashed var(--border);}
+  .hero-card .row:last-child{border-bottom:none;}
+  .hero-card .row b{color:var(--text); font-weight:500;}
+  .hero-card .dot{
+    position:absolute; top:20px; right:20px;
+    width:8px; height:8px; border-radius:50%;
+    background:var(--aurora);
+    box-shadow:0 0 0 4px var(--aurora-soft);
+  }
+
+  /* ---------- ABOUT ---------- */
+  .about-grid{
+    display:grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap:60px;
+    align-items:start;
+  }
+  .about-text p{
+    color:var(--text-muted);
+    font-size:1.02rem;
+    max-width:62ch;
+  }
+  .about-text strong{color:var(--text); font-weight:600;}
+  .stat-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:1px;
+    background:var(--border);
+    border:1px solid var(--border);
+    border-radius:14px;
+    overflow:hidden;
+    position:relative;
+  }
+  .stat-grid::before{
+    content:"";
+    position:absolute;
+    inset:-40px;
+    background:radial-gradient(ellipse at 70% 20%, rgba(79,216,196,0.14), transparent 60%);
+    z-index:-1;
+    filter:blur(10px);
+  }
+  .stat{
+    background:var(--surface-solid);
+    padding:22px 20px;
+  }
+  .stat .num{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:1.9rem;
+    color:var(--aurora);
+    font-weight:600;
+  }
+  .stat .label{
+    font-size:0.78rem;
+    color:var(--text-muted);
+    margin-top:4px;
+  }
+
+  @media (max-width: 860px){
+    .hero .wrap, .about-grid{grid-template-columns:1fr;}
+    .hero-orbit{display:none;}
+  }
+
+  .hero-particles{
+    position:absolute; inset:0;
+    z-index:0;
+    pointer-events:none;
+  }
+
+  @keyframes riseIn{
+    from{opacity:0; transform:translateY(22px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+  .hero .eyebrow{animation:riseIn .7s ease both; animation-delay:.05s;}
+  .hero h1{animation:riseIn .8s ease both; animation-delay:.15s;}
+  .hero-role{animation:riseIn .8s ease both; animation-delay:.3s;}
+  .hero-tags{animation:riseIn .8s ease both; animation-delay:.42s;}
+  .hero-actions{animation:riseIn .8s ease both; animation-delay:.54s;}
+  .hero-card{animation:riseIn .9s ease both; animation-delay:.5s;}
+
+  @media (prefers-reduced-motion: reduce){
+    .hero .eyebrow, .hero h1, .hero-role, .hero-tags, .hero-actions, .hero-card{
+      animation:none; opacity:1; transform:none;
+    }
+  }
+
+  /* ---------- SPIRAL TIMELINE ---------- */
+  .timeline-head{ text-align:center; margin-bottom:70px;}
+  .timeline-head h2{ font-size:clamp(1.8rem, 4vw, 2.6rem); }
+  .timeline-head p{ color:var(--text-muted); max-width:52ch; margin:14px auto 0;}
+
+  .spiral-wrap{
+    position:relative;
+    max-width:820px;
+    margin:0 auto;
+  }
+  .spiral-svg{
+    position:absolute;
+    top:0; left:50%;
+    transform:translateX(-50%);
+    width:100%; height:100%;
+    z-index:0;
+  }
+  .spiral-path{
+    fill:none;
+    stroke:url(#spiralGradient);
+    stroke-width:2;
+    stroke-linecap:round;
+  }
+
+  .tl-item{
+    position:relative;
+    z-index:1;
+    width:44%;
+    padding:24px 26px;
+    margin-bottom:56px;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:16px;
+    opacity:0;
+    transform:translateY(24px);
+    transition:opacity .7s ease, transform .7s ease;
+  }
+  .tl-item.visible{opacity:1; transform:translateY(0);}
+  .tl-item:nth-child(odd){margin-left:0; margin-right:auto;}
+  .tl-item:nth-child(even){margin-left:auto; margin-right:0;}
+
+  .tl-item .when{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.74rem;
+    color:var(--storm);
+    display:block;
+    margin-bottom:8px;
+  }
+  .tl-item.type-patent .when{color:var(--aurora);}
+  .tl-item h3{font-size:1.08rem; margin-bottom:6px;}
+  .tl-item .org{color:var(--text-muted); font-size:0.88rem; margin-bottom:10px;}
+  .tl-item .desc{color:var(--text-muted); font-size:0.9rem;}
+  .tl-item .badge{
+    display:inline-block;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.66rem;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    padding:3px 9px;
+    border-radius:100px;
+    margin-bottom:10px;
+    background:var(--storm-soft);
+    color:var(--storm);
+  }
+  .tl-item.type-patent .badge{background:var(--aurora-soft); color:var(--aurora);}
+
+  @media (max-width:760px){
+    .spiral-svg{left:14px; transform:none; width:2px;}
+    .tl-item{width:100%; padding-left:40px;}
+    .tl-item:nth-child(even){margin-left:0;}
+  }
+
+  /* ---------- PROJECTS ---------- */
+  .grid-2{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+  }
+  .card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:28px;
+    transition:border-color .2s ease, transform .2s ease;
+  }
+  .card:hover{border-color:var(--aurora); transform:translateY(-3px);}
+  .card{ will-change:transform; transform-style:preserve-3d; }
+  .card .idx{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.75rem;
+    color:var(--text-faint);
+  }
+  .card h3{font-size:1.05rem; margin:10px 0 8px;}
+  .card p{color:var(--text-muted); font-size:0.9rem; margin:0;}
+
+  @media (max-width:700px){.grid-2{grid-template-columns:1fr;}}
+
+  .card-featured{
+    background:linear-gradient(135deg, rgba(79,216,196,0.08), rgba(242,153,74,0.06));
+    border:1px solid rgba(79,216,196,0.3);
+  }
+  .card-featured .idx{
+    color:var(--aurora);
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+  }
+  .card-featured h3{font-size:1.25rem; margin:10px 0 12px;}
+  .card-featured p{max-width:75ch;}
+  .card-featured p + p{margin-top:8px;}
+
+  /* ---------- CREDENTIALS / DOCUMENTS ---------- */
+  .doc-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:26px;
+  }
+  @media (max-width:900px){.doc-grid{grid-template-columns:1fr;}}
+
+  .doc-card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:16px;
+    transition:transform .35s ease, border-color .3s ease, box-shadow .35s ease;
+    will-change:transform;
+  }
+  .doc-card:hover{
+    border-color:var(--aurora);
+    box-shadow:0 24px 50px -20px rgba(0,0,0,0.55);
+  }
+  .doc-frame{
+    position:relative;
+    border-radius:10px;
+    overflow:hidden;
+    aspect-ratio:3/4;
+    background:
+      repeating-linear-gradient(135deg, rgba(255,255,255,0.03) 0 2px, transparent 2px 10px),
+      linear-gradient(160deg, #1b2338, #0d1220);
+    border:1px solid var(--border);
+    margin-bottom:16px;
+  }
+  .doc-frame img{
+    width:100%; height:100%;
+    object-fit:cover;
+    object-position:top center;
+    transition:transform .5s ease;
+  }
+  .doc-card:hover .doc-frame img{transform:scale(1.04);}
+  .doc-frame .doc-empty{
+    position:absolute; inset:0;
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    gap:12px;
+    color:var(--text-faint);
+    text-align:center;
+    padding:22px;
+  }
+  .doc-frame .doc-empty span{font-size:0.78rem; font-family:'IBM Plex Mono', monospace; line-height:1.5;}
+  .doc-frame input[type=file]{position:absolute; inset:0; opacity:0; cursor:pointer;}
+  .doc-real-badge{
+    position:absolute; top:10px; right:10px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.62rem;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    padding:4px 9px;
+    border-radius:100px;
+    background:rgba(79,216,196,0.16);
+    color:var(--aurora);
+    border:1px solid rgba(79,216,196,0.4);
+  }
+  .doc-card h4{font-size:0.98rem; margin-bottom:4px;}
+  .doc-card .doc-meta{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.74rem;
+    color:var(--text-faint);
+  }
+
+  /* ---------- SKILLS ---------- */
+  .skill-block{margin-bottom:28px;}
+  .skill-block h4{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.78rem;
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    color:var(--text-muted);
+    margin-bottom:14px;
+  }
+  .pill-row{display:flex; flex-wrap:wrap; gap:10px;}
+  .pill{
+    padding:8px 16px;
+    border-radius:100px;
+    background:var(--surface);
+    border:1px solid var(--border);
+    font-size:0.86rem;
+    color:var(--text);
+    transition:all .2s ease;
+  }
+  .pill:hover{border-color:var(--storm); color:var(--storm); background:var(--storm-soft);}
+
+  /* ---------- GALLERY ---------- */
+  .gallery-strip{
+    display:flex;
+    gap:18px;
+    overflow-x:auto;
+    padding:6px 6px 22px;
+    scroll-snap-type:x mandatory;
+  }
+  .gallery-strip::-webkit-scrollbar{height:6px;}
+  .gallery-strip::-webkit-scrollbar-thumb{background:var(--border); border-radius:10px;}
+
+  .gtile{
+    position:relative;
+    flex:0 0 240px;
+    height:300px;
+    border-radius:16px;
+    overflow:hidden;
+    border:1px solid var(--border);
+    scroll-snap-align:start;
+    cursor:pointer;
+    background:linear-gradient(160deg, var(--surface-solid), #0d1220);
+  }
+  .gtile img{
+    width:100%; height:100%; object-fit:cover;
+    position:absolute; inset:0;
+  }
+  .gtile .ph{
+    position:absolute; inset:0;
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    gap:10px;
+    color:var(--text-faint);
+    text-align:center;
+    padding:20px;
+  }
+  .gtile .ph svg{opacity:0.5;}
+  .gtile .ph span{font-size:0.8rem; font-family:'IBM Plex Mono', monospace;}
+  .gtile .cap{
+    position:absolute; left:0; right:0; bottom:0;
+    padding:14px 16px;
+    background:linear-gradient(0deg, rgba(0,0,0,0.75), transparent);
+    font-size:0.82rem;
+    color:var(--text);
+  }
+  .gtile input[type=file]{
+    position:absolute; inset:0;
+    opacity:0; cursor:pointer;
+  }
+
+  /* ---------- CERTS ---------- */
+  .cert-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:1px;
+    background:var(--border);
+    border:1px solid var(--border);
+    border-radius:14px;
+    overflow:hidden;
+  }
+  .cert{
+    background:var(--surface-solid);
+    padding:18px 22px;
+    font-size:0.88rem;
+    color:var(--text-muted);
+  }
+  .cert b{color:var(--text); font-weight:500; display:block; margin-bottom:3px;}
+  @media (max-width:700px){.cert-grid{grid-template-columns:1fr;}}
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    border-top:1px solid var(--border);
+    padding:60px 0 40px;
+  }
+  .footer-grid{
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:30px;
+  }
+  .footer-links{display:flex; gap:22px; flex-wrap:wrap;}
+  .footer-links a{
+    text-decoration:none;
+    color:var(--text-muted);
+    font-size:0.9rem;
+    transition:color .2s ease;
+  }
+  .footer-links a:hover{color:var(--aurora);}
+  .footer-credit{
+    color:var(--text-faint);
+    font-size:0.78rem;
+    margin-top:36px;
+    font-family:'IBM Plex Mono', monospace;
+  }
+
+  /* reveal-on-scroll generic */
+  .reveal{opacity:0; transform:translateY(18px); transition:opacity .7s ease, transform .7s ease;}
+  .reveal.visible{opacity:1; transform:translateY(0);}
+</style>
+</head>
+<body>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<nav>
+  <div class="wrap">
+    <a href="#top" class="nav-mark">Kaif<span>.</span>Hazarika</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#trajectory">Trajectory</a></li>
+      <li><a href="#projects">Research</a></li>
+      <li><a href="#credentials">Credentials</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#gallery">Field Notes</a></li>
+    </ul>
+    <a class="nav-cta" href="Kaif_Hazarika_CV.pdf" download>Download CV</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false"><span></span></button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#trajectory">Trajectory</a></li>
+    <li><a href="#projects">Research</a></li>
+    <li><a href="#credentials">Credentials</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#gallery">Field Notes</a></li>
+    <li><a href="Kaif_Hazarika_CV.pdf" download>Download CV ↓</a></li>
+  </ul>
+</div>
+
+<!-- ================= HERO ================= -->
+<header class="hero" id="top">
+  <canvas class="hero-particles" id="heroParticles"></canvas>
+  <svg class="hero-orbit" viewBox="0 0 640 640" fill="none">
+    <defs>
+      <linearGradient id="orbitGrad" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#4fd8c4"/>
+        <stop offset="100%" stop-color="#f2994a"/>
+      </linearGradient>
+    </defs>
+    <g opacity="0.7">
+      <path d="M320 60 C 480 60 560 200 500 320 C 440 440 200 460 140 340 C 90 240 160 100 320 60Z" stroke="url(#orbitGrad)" stroke-width="1.2"/>
+      <path d="M320 130 C 430 130 480 230 440 320 C 400 410 230 430 180 340 C 140 265 200 160 320 130Z" stroke="url(#orbitGrad)" stroke-width="1" opacity="0.6"/>
+      <circle cx="320" cy="320" r="6" fill="#4fd8c4"/>
+      <circle cx="500" cy="320" r="4" fill="#f2994a"/>
+      <circle cx="180" cy="340" r="3.5" fill="#4fd8c4"/>
+    </g>
+  </svg>
+
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">Physics · Space &amp; Atmospheric Sciences</div>
+      <h1>Kaif Hazarika<br><span class="accent">traces the drift</span> of ideas across the atmosphere.</h1>
+      <p class="hero-role">Physics researcher studying thermospheric wind response to geomagnetic storms and equatorial E×B drift dynamics — with a parallel track in climate systems, applied engineering, and two filed patents.</p>
+      <div class="hero-tags">
+        <span class="tag">Ionospheric Physics</span>
+        <span class="tag">Thermospheric Dynamics</span>
+        <span class="tag">Python / Fortran</span>
+        <span class="tag">Climate Resilience</span>
+      </div>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="Kaif_Hazarika_CV.pdf" download>Download CV</a>
+        <a class="btn btn-ghost" href="https://www.linkedin.com/in/kaif-hazarika/" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a class="btn btn-ghost" href="https://github.com/kaifhazarika" target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <div class="dot"></div>
+      <div class="row"><span>location</span><b>Nagaon, Assam, IN</b></div>
+      <div class="row"><span>focus</span><b>Space &amp; Atmospheric Sci.</b></div>
+      <div class="row"><span>patents_filed</span><b>02</b></div>
+      <div class="row"><span>degrees</span><b>06</b></div>
+      <div class="row"><span>status</span><b>Open to research roles</b></div>
+    </div>
+  </div>
+</header>
+
+<!-- ================= ABOUT ================= -->
+<section id="about">
+  <div class="wrap about-grid">
+    <div class="about-text reveal">
+      <div class="eyebrow">Profile</div>
+      <h2 style="font-size:clamp(1.6rem,3vw,2.1rem); margin-bottom:20px;">A physicist working the boundary between upper-atmosphere research and applied systems.</h2>
+      <p>My research foundation is in <strong>upper-atmosphere and space physics</strong> — built through undergraduate and postgraduate work on thermospheric wind response to geomagnetic storms, and equatorial <strong>E×B drift</strong> dynamics using C/NOFS satellite data.</p>
+      <p>That foundation extends outward: a state-government <strong>Climate Resilient Village Fellowship</strong> and a satellite-data case study on climate change's effect on rural livelihoods took me into applied climate research, while an ongoing <strong>Master's in Library &amp; Information Science</strong> and two filed patent applications took me into information systems and applied engineering.</p>
+      <p>I move comfortably between physical modeling, scientific computing, and applied data analysis — working in <strong>Python, Fortran, C++, and Java</strong>, with domain tools spanning <strong>MRST-co2lab, GNOME, Grapher, GPS-X,</strong> and <strong>Design-Expert</strong>.</p>
+    </div>
+    <div class="stat-grid reveal">
+      <div class="stat"><div class="num">78–82%</div><div class="label">Academic grade range, Physics &amp; allied diplomas</div></div>
+      <div class="stat"><div class="num">2</div><div class="label">Patent applications filed (2024, 2026)</div></div>
+      <div class="stat"><div class="num">5</div><div class="label">Independent research projects</div></div>
+      <div class="stat"><div class="num">9.4</div><div class="label">CGPA — Oil Well Drilling Technology</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SPIRAL TRAJECTORY ================= -->
+<section id="trajectory">
+  <div class="wrap">
+    <div class="timeline-head reveal">
+      <div class="eyebrow" style="justify-content:center;">Career Trajectory · 2015 → 2026</div>
+      <h2>The path spirals, but it doesn't drift aimlessly.</h2>
+      <p>Modeled on the same E×B drift motion I study — each stage curves into the next rather than sitting on a flat line.</p>
+    </div>
+
+    <div class="spiral-wrap" id="spiralWrap">
+      <svg class="spiral-svg" id="spiralSvg" viewBox="0 0 820 2600" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="spiralGradient" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#4fd8c4"/>
+            <stop offset="50%" stop-color="#8f9ee0"/>
+            <stop offset="100%" stop-color="#f2994a"/>
+          </linearGradient>
+        </defs>
+        <path id="spiralPath" class="spiral-path" d="M410,10
+          C 620,60 620,180 410,230
+          C 200,280 200,400 410,450
+          C 620,500 620,620 410,670
+          C 200,720 200,840 410,890
+          C 620,940 620,1060 410,1110
+          C 200,1160 200,1280 410,1330
+          C 620,1380 620,1500 410,1550
+          C 200,1600 200,1720 410,1770
+          C 620,1820 620,1940 410,1990
+          C 200,2040 200,2160 410,2210
+          C 620,2260 620,2380 410,2430
+          C 250,2470 250,2560 410,2590" />
+      </svg>
+
+      <div class="tl-item">
+        <span class="when mono">2015</span>
+        <h3>HSLC (Class 10)</h3>
+        <div class="org">Jawahar Navodaya Vidyalaya, Dhing · CGPA 8.6</div>
+        <div class="desc">Foundation year — first serious footing in the sciences.</div>
+      </div>
+
+      <div class="tl-item">
+        <span class="when mono">2017</span>
+        <h3>Higher Secondary, Science</h3>
+        <div class="org">Jawahar Navodaya Vidyalaya, Dhing · 74%</div>
+        <div class="desc">Specialized in the Science stream ahead of a Physics degree.</div>
+      </div>
+
+      <div class="tl-item">
+        <span class="when mono">2018 – 2024</span>
+        <h3>BSc &amp; Integrated MSc, Physics</h3>
+        <div class="org">Dibrugarh University · 79.8% / 78%</div>
+        <div class="desc">Core research years — thermospheric wind response to geomagnetic storms, and equatorial E×B drift using C/NOFS satellite data.</div>
+      </div>
+
+      <div class="tl-item">
+        <span class="when mono">2022</span>
+        <h3>PG Diploma, Computer Application</h3>
+        <div class="org">National Board of Computer Education · 82.5%</div>
+        <div class="desc">Applied computing groundwork alongside the physics coursework.</div>
+      </div>
+
+      <div class="tl-item">
+        <span class="when mono">Mar 2023 – Feb 2024</span>
+        <h3>Climate Resilient Village Fellowship</h3>
+        <div class="org">Assam Science Technology &amp; Environment Council</div>
+        <div class="desc">Community-level climate-change adaptation and resilience strategy.</div>
+      </div>
+
+      <div class="tl-item">
+        <span class="when mono">2023 – 2024</span>
+        <h3>Diploma, Oil Well Drilling Technology</h3>
+        <div class="org">Dept. of Petroleum Technology, Dibrugarh University · CGPA 9.4</div>
+        <div class="desc">Rig systems, drilling equipment, and well-construction operations.</div>
+      </div>
+
+      <div class="tl-item">
+        <span class="when mono">Jan 2024</span>
+        <h3>Winter Intern, Drilling Department</h3>
+        <div class="org">Oil India Limited, Duliajan</div>
+        <div class="desc">Hands-on exposure across rig building, instrumentation, and HSE protocol, including site visits to two active rigs.</div>
+      </div>
+
+      <div class="tl-item type-patent">
+        <span class="badge mono">Patent I · Filed</span>
+        <span class="when mono">6 Sep 2024</span>
+        <h3>Carbon Emission Estimation &amp; Offsetting System</h3>
+        <div class="org">Application No. 202441065196</div>
+        <div class="desc">Quantifies E&amp;P-sector greenhouse-gas emissions and recommends a tree-planting-based offset.</div>
+      </div>
+
+      <div class="tl-item">
+        <span class="when mono">2023 – 2025</span>
+        <h3>BLIS &amp; PG Diploma, Rural Development</h3>
+        <div class="org">IGNOU · 66.64% &amp; 61.21%, both First Division</div>
+        <div class="desc">Rural development project: <em>Investigating Climate Change and Its Effects on Rural Livelihoods — A Case Study of Bhojo Village</em>, combining household surveys with satellite climate-data analysis.</div>
+      </div>
+
+      <div class="tl-item type-patent">
+        <span class="badge mono">Patent II · Filed</span>
+        <span class="when mono">28 May 2026</span>
+        <h3>Hardware-Integrated Offline Authentication System</h3>
+        <div class="org">Application No. 202631066962 · with Dr. S. B. Gogoi &amp; H. Bhuyan</div>
+        <div class="desc">Network-independent entry-gate authentication and inventory control, running entirely in local memory.</div>
+      </div>
+
+      <div class="tl-item">
+        <span class="when mono">2025 – 2026</span>
+        <h3>MLIS — Master of Library &amp; Information Science</h3>
+        <div class="org">IGNOU · Coursework &amp; project (MLIP002) complete</div>
+        <div class="desc">Deepening the library-science thread — information systems, ICT applications, and research methodology.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROJECTS ================= -->
+<section id="projects">
+  <div class="wrap">
+    <div class="eyebrow reveal">Research Projects</div>
+    <h2 class="reveal" style="font-size:clamp(1.6rem,3vw,2.1rem); margin-bottom:36px;">Five investigations, one throughline: systems in motion.</h2>
+
+    <div class="card card-featured reveal" style="margin-bottom:20px;">
+      <span class="idx">Featured</span>
+      <h3>Investigating Climate Change's Effects on Rural Livelihoods</h3>
+      <p style="margin-bottom:10px;">Case study of Bhojo Village · PGDRD Research Project (MRDP-205), IGNOU, 2025 · Supervised by Dr. Murchana Gogoi, Dept. of Sociology, Silapathar College</p>
+      <p>Paired household-survey fieldwork with satellite-derived analysis of temperature trends, precipitation patterns, and greenhouse-gas concentrations to assess how a changing climate is reshaping a rural community's livelihood.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card reveal"><span class="idx">01</span><h3>Thermosphere Meridional Wind Response</h3><p>Investigated how thermospheric meridional winds responded to the geomagnetic storm of November 2021.</p></div>
+      <div class="card reveal"><span class="idx">02</span><h3>Vertical E×B Drift Velocity Variations</h3><p>Analyzed equatorial drift-velocity variation using C/NOFS satellite observation data.</p></div>
+      <div class="card reveal"><span class="idx">03</span><h3>Climate Change: Adaptation &amp; Sustainability</h3><p>Examined mitigation and adaptation strategy design for climate-vulnerable communities.</p></div>
+      <div class="card reveal"><span class="idx">04</span><h3>Climate Data Handling &amp; Prediction</h3><p>Built and evaluated approaches for processing and forecasting climate datasets.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CREDENTIALS ================= -->
+<section id="credentials">
+  <div class="wrap">
+    <div class="eyebrow reveal">Credentials on Record</div>
+    <h2 class="reveal" style="font-size:clamp(1.6rem,3vw,2.1rem); margin-bottom:12px;">Documents that back up the claims.</h2>
+    <p class="reveal" style="color:var(--text-muted); max-width:60ch; margin-bottom:34px;"> </p>
+
+    <div class="doc-grid">
+      <div class="doc-card reveal">
+        <div class="doc-frame">
+          <img src="assets/documents/patent-ii-hardware-system.png" alt="Patent application publication for A Hardware-Integrated Offline User and Inventory Management System">
+          <span class="doc-real-badge">On file</span>
+        </div>
+        <h4>Patent II — Hardware-Integrated Offline System</h4>
+        <div class="doc-meta">App No. 202631066962 · Published 12 Jun 2026</div>
+      </div>
+
+      <div class="doc-card reveal">
+        <div class="doc-frame" id="docFrame1">
+          <div class="doc-empty">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 7h8M8 11h8M8 15h5"/></svg>
+            <span>Click to add the scan<br>for this patent entry</span>
+          </div>
+          <input type="file" accept="image/*" data-target="docFrame1" title="Preview a document scan here (local only, not saved)">
+        </div>
+        <h4>Patent I — Carbon Emission Estimation &amp; Offsetting</h4>
+        <div class="doc-meta">App No. 202441065196 · Published 6 Sep 2024</div>
+      </div>
+
+      <div class="doc-card reveal">
+        <div class="doc-frame" id="docFrame2">
+          <div class="doc-empty">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 7h8M8 11h8M8 15h5"/></svg>
+            <span>Click to add the scan<br>for this fellowship</span>
+          </div>
+          <input type="file" accept="image/*" data-target="docFrame2" title="Preview a certificate scan here (local only, not saved)">
+        </div>
+        <h4>Chief Minister's Climate Resilient Village Fellowship</h4>
+        <div class="doc-meta">Assam Science Technology &amp; Environment Council · Mar 2023 – Feb 2024</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SKILLS ================= -->
+<section id="skills">
+  <div class="wrap">
+    <div class="eyebrow reveal">Technical Skills</div>
+    <h2 class="reveal" style="font-size:clamp(1.6rem,3vw,2.1rem); margin-bottom:40px;">Instruments of the trade.</h2>
+
+    <div class="skill-block reveal">
+      <h4>Atmospheric &amp; Space Science</h4>
+      <div class="pill-row">
+        <span class="pill">Ionospheric Physics</span><span class="pill">Thermospheric Dynamics</span><span class="pill">Geomagnetic Storm Analysis</span><span class="pill">Equatorial E×B Drift</span><span class="pill">C/NOFS Satellite Data</span><span class="pill">Space Weather</span>
+      </div>
+    </div>
+    <div class="skill-block reveal">
+      <h4>Climate &amp; Environmental Systems</h4>
+      <div class="pill-row">
+        <span class="pill">GHG Emission Estimation</span><span class="pill">Satellite Climate-Data Analysis</span><span class="pill">Temperature &amp; Precipitation Trend Analysis</span><span class="pill">Climate Data Handling &amp; Prediction</span><span class="pill">Climate-Resilience Planning</span>
+      </div>
+    </div>
+    <div class="skill-block reveal">
+      <h4>Library &amp; Information Science</h4>
+      <div class="pill-row">
+        <span class="pill">Information Organization &amp; Cataloguing</span><span class="pill">ICT in Libraries</span><span class="pill">Information Retrieval Systems</span><span class="pill">Library &amp; Information Centre Management</span><span class="pill">Research Methodology</span><span class="pill">Technical Writing</span>
+      </div>
+    </div>
+    <div class="skill-block reveal">
+      <h4>Programming</h4>
+      <div class="pill-row">
+        <span class="pill">Python</span><span class="pill">Fortran</span><span class="pill">C++</span><span class="pill">Java</span>
+      </div>
+    </div>
+    <div class="skill-block reveal">
+      <h4>Engineering Simulation &amp; Visualization</h4>
+      <div class="pill-row">
+        <span class="pill">Halliburton Landmark WellPlan™</span><span class="pill">MRST-co2lab</span><span class="pill">Mudware</span><span class="pill">GNOME</span><span class="pill">GPS-X</span><span class="pill">STOAT</span><span class="pill">Design-Expert</span><span class="pill">Grapher</span><span class="pill">LaTeX</span><span class="pill">Excel</span><span class="pill">Photoshop</span><span class="pill">Unity</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= GALLERY ================= -->
+<section id="gallery">
+  <div class="wrap">
+    <div class="eyebrow reveal">Field Notes</div>
+    <h2 class="reveal" style="font-size:clamp(1.6rem,3vw,2.1rem); margin-bottom:12px;">A few frames from the field.</h2>
+    <p class="reveal" style="color:var(--text-muted); max-width:56ch; margin-bottom:34px;"> </p>
+
+    <div class="gallery-strip reveal" id="galleryStrip">
+      <!-- tiles generated by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- ================= CERTS ================= -->
+<section id="certs">
+  <div class="wrap">
+    <div class="eyebrow reveal">Certificates &amp; Trainings</div>
+    <h2 class="reveal" style="font-size:clamp(1.6rem,3vw,2.1rem); margin-bottom:36px;">Time logged outside the classroom.</h2>
+    <div class="cert-grid reveal">
+      <div class="cert"><b>Planetary Science — Online Short Course</b>CSSTEAP under PRL, Dehradun, 2023</div>
+      <div class="cert"><b>Space &amp; Atmospheric Sciences Research Tools</b>Dept. of Physics, Dibrugarh University, 2023</div>
+      <div class="cert"><b>Popularization of Plasma Physics</b>Dibrugarh University &amp; CPP-IPR, Guwahati, 2023</div>
+      <div class="cert"><b>Mitigating Carbon Emissions — Hands-on Training</b>FIPI Dibrugarh University Chapter, 2024</div>
+      <div class="cert"><b>NCC 'C' Certificate</b>National Cadet Corps, 2023</div>
+      <div class="cert"><b>1st Position — Advaya Paper Presentation</b>FIPI Dibrugarh University Chapter, 2023</div>
+      <div class="cert"><b>Certificate Course in Entrepreneurship</b>ISB Srini Raju Centre &amp; CSC Academy</div>
+      <div class="cert"><b>1-Day AI Tools Workshop</b>BE10X, 3 March 2024</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="nav-mark" style="margin-bottom:10px;">Kaif<span>.</span>Hazarika</div>
+        <div style="color:var(--text-muted); font-size:0.9rem;">Nagaon, Assam, India · kaifhazarika@gmail.com</div>
+      </div>
+      <div class="footer-links">
+        <a href="mailto:kaifhazarika@gmail.com">Email</a>
+        <a href="https://www.linkedin.com/in/kaif-hazarika/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/kaifhazarika" target="_blank" rel="noopener">GitHub</a>
+        <a href="Kaif_Hazarika_CV.pdf" download>Download CV</a>
+      </div>
+    </div>
+    <div class="footer-credit"> </div>
+  </div>
+</footer>
+
+<script>
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// ---------- Scroll progress bar ----------
+const progressBar = document.getElementById('scrollProgress');
+function updateProgress(){
+  const h = document.documentElement;
+  const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+  progressBar.style.width = scrolled + '%';
+}
+window.addEventListener('scroll', updateProgress, {passive:true});
+updateProgress();
+
+// ---------- Mobile menu ----------
+const navToggle = document.getElementById('navToggle');
+const mobileMenu = document.getElementById('mobileMenu');
+navToggle.addEventListener('click', ()=>{
+  const open = mobileMenu.classList.toggle('open');
+  navToggle.classList.toggle('open', open);
+  navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+});
+mobileMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click', ()=>{
+  mobileMenu.classList.remove('open');
+  navToggle.classList.remove('open');
+}));
+
+// ---------- Reveal on scroll ----------
+const revealEls = document.querySelectorAll('.reveal, .tl-item');
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); }
+  });
+}, {threshold:0.15});
+revealEls.forEach(el=>io.observe(el));
+
+// ---------- Hero ambient drift particles ----------
+(function(){
+  const canvas = document.getElementById('heroParticles');
+  const ctx = canvas.getContext('2d');
+  const hero = document.querySelector('.hero');
+  let w,h,particles;
+
+  function size(){
+    w = canvas.width = hero.clientWidth;
+    h = canvas.height = hero.clientHeight;
+  }
+  function makeParticles(){
+    const count = Math.round((w*h)/34000);
+    particles = Array.from({length:count}, ()=>({
+      x: Math.random()*w,
+      y: Math.random()*h,
+      r: Math.random()*1.6 + 0.4,
+      vx: (Math.random()-0.3)*0.15,
+      vy: -(Math.random()*0.25 + 0.05),
+      hue: Math.random() > 0.5 ? '79,216,196' : '242,153,74',
+      a: Math.random()*0.5 + 0.15
+    }));
+  }
+  function step(){
+    ctx.clearRect(0,0,w,h);
+    particles.forEach(p=>{
+      p.x += p.vx; p.y += p.vy;
+      if(p.y < -10){ p.y = h+10; p.x = Math.random()*w; }
+      if(p.x < -10) p.x = w+10;
+      if(p.x > w+10) p.x = -10;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(${p.hue},${p.a})`;
+      ctx.fill();
+    });
+    if(!reduceMotion) requestAnimationFrame(step);
+  }
+  size(); makeParticles();
+  if(reduceMotion){ step(); } else { step(); }
+  window.addEventListener('resize', ()=>{ size(); makeParticles(); });
+})();
+
+// ---------- Spiral path draw tied to scroll ----------
+const path = document.getElementById('spiralPath');
+const wrap = document.getElementById('spiralWrap');
+const len = path.getTotalLength();
+path.style.strokeDasharray = len;
+path.style.strokeDashoffset = len;
+
+if(reduceMotion){
+  path.style.strokeDashoffset = 0;
+} else {
+  function updateSpiral(){
+    const rect = wrap.getBoundingClientRect();
+    const vh = window.innerHeight;
+    const total = rect.height + vh;
+    const scrolled = Math.min(Math.max(vh - rect.top, 0), total);
+    const progress = Math.min(scrolled / total, 1);
+    path.style.strokeDashoffset = String(len * (1 - progress));
+  }
+  window.addEventListener('scroll', updateSpiral, {passive:true});
+  window.addEventListener('resize', updateSpiral);
+  updateSpiral();
+}
+
+// ---------- Subtle card tilt on pointer move ----------
+if(!reduceMotion && window.matchMedia('(hover:hover)').matches){
+  document.querySelectorAll('.card, .doc-card').forEach(card=>{
+    card.addEventListener('mousemove', (e)=>{
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left)/r.width - 0.5;
+      const y = (e.clientY - r.top)/r.height - 0.5;
+      card.style.transform = `translateY(-3px) rotateX(${(-y*4).toFixed(2)}deg) rotateY(${(x*4).toFixed(2)}deg)`;
+    });
+    card.addEventListener('mouseleave', ()=>{ card.style.transform = ''; });
+  });
+}
+
+// ---------- Credential document upload previews ----------
+document.querySelectorAll('#credentials input[type=file]').forEach(input=>{
+  input.addEventListener('change', (e)=>{
+    const file = e.target.files[0];
+    if(!file) return;
+    const frame = document.getElementById(input.dataset.target);
+    const url = URL.createObjectURL(file);
+    let img = frame.querySelector('img');
+    if(!img){
+      img = document.createElement('img');
+      frame.prepend(img);
+    }
+    img.src = url;
+    frame.querySelector('.doc-empty').style.display = 'none';
+  });
+});
+
+// ---------- Gallery: placeholder tiles + local-preview upload ----------
+// To make a photo PERMANENT: drop the file in /assets/gallery/ and add
+// an `img: 'assets/gallery/yourfile.jpg'` property to that entry below.
+// Entries WITHOUT an `img` stay as click-to-preview placeholders (the
+// preview is local to the visitor's browser only — it is not saved).
+const galleryData = [
+  {label:'Rig Site Visit', hint:'Add: OIL drilling rig, Jan 2024'},
+  {label:'Fellowship Fieldwork', hint:'Add: CM Climate Fellowship, 2023'},
+  {label:'SPE Volunteering', hint:'Add: SPE South Asia contest, 2024'},
+  {label:'Workshop / Conference', hint:'Add: Plasma physics workshop'},
+  {label:'Convocation', hint:'Add: Graduation day'},
+  {label:'Your Next Photo', hint:'Click to preview an image here'},
+];
+
+const strip = document.getElementById('galleryStrip');
+galleryData.forEach((item)=>{
+  const tile = document.createElement('div');
+  tile.className = 'gtile';
+
+  if(item.img){
+    tile.innerHTML = `
+      <img src="${item.img}" alt="${item.label}">
+      <div class="cap">${item.label}</div>
+    `;
+  } else {
+    tile.innerHTML = `
+      <div class="ph">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+          <rect x="3" y="5" width="18" height="14" rx="2"/>
+          <circle cx="8.5" cy="10" r="1.6"/>
+          <path d="M21 16l-5-5-4 4-3-3-6 6"/>
+        </svg>
+        <span>${item.hint}</span>
+      </div>
+      <input type="file" accept="image/*" title="Preview a photo here (local only, not saved)">
+      <div class="cap">${item.label}</div>
+    `;
+    const input = tile.querySelector('input');
+    input.addEventListener('change', (e)=>{
+      const file = e.target.files[0];
+      if(!file) return;
+      const url = URL.createObjectURL(file);
+      let img = tile.querySelector('img');
+      if(!img){
+        img = document.createElement('img');
+        tile.prepend(img);
+      }
+      img.src = url;
+      tile.querySelector('.ph').style.display = 'none';
+    });
+  }
+  strip.appendChild(tile);
+});
+</script>
+
+</body>
+</html>
