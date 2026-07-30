@@ -538,8 +538,77 @@
     object-fit:cover;
     object-position:top center;
     transition:transform .5s ease;
+    cursor:zoom-in;
   }
   .doc-card:hover .doc-frame img{transform:scale(1.04);}
+  .doc-frame::after{
+    content:"⤢ view full size";
+    position:absolute;
+    bottom:10px; left:10px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.65rem;
+    color:var(--text);
+    background:rgba(0,0,0,0.55);
+    padding:4px 9px;
+    border-radius:100px;
+    opacity:0;
+    transition:opacity .25s ease;
+    pointer-events:none;
+  }
+  .doc-card:hover .doc-frame::after{opacity:1;}
+
+  .lightbox{
+    position:fixed; inset:0;
+    background:rgba(6,8,14,0.92);
+    backdrop-filter:blur(6px);
+    z-index:300;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:40px 20px;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .3s ease;
+  }
+  .lightbox.open{opacity:1; pointer-events:auto;}
+  .lightbox img{
+    max-width:min(900px, 100%);
+    max-height:90vh;
+    border-radius:10px;
+    box-shadow:0 30px 80px -20px rgba(0,0,0,0.7);
+  }
+  .lightbox-close{
+    position:absolute;
+    top:24px; right:28px;
+    width:42px; height:42px;
+    border-radius:50%;
+    border:1px solid var(--border);
+    background:rgba(255,255,255,0.06);
+    color:var(--text);
+    font-size:1.3rem;
+    cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .lightbox-close:hover{border-color:var(--aurora); color:var(--aurora);}
+
+  .back-to-top{
+    position:fixed;
+    right:24px; bottom:24px;
+    width:46px; height:46px;
+    border-radius:50%;
+    background:var(--surface-solid);
+    border:1px solid var(--border);
+    color:var(--text-muted);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    z-index:90;
+    opacity:0;
+    transform:translateY(10px);
+    pointer-events:none;
+    transition:opacity .3s ease, transform .3s ease, border-color .3s ease, color .3s ease;
+  }
+  .back-to-top.visible{opacity:1; transform:translateY(0); pointer-events:auto;}
+  .back-to-top:hover{border-color:var(--aurora); color:var(--aurora);}
   .doc-frame .doc-empty{
     position:absolute; inset:0;
     display:flex; flex-direction:column;
@@ -591,55 +660,6 @@
     transition:all .2s ease;
   }
   .pill:hover{border-color:var(--storm); color:var(--storm); background:var(--storm-soft);}
-
-  /* ---------- GALLERY ---------- */
-  .gallery-strip{
-    display:flex;
-    gap:18px;
-    overflow-x:auto;
-    padding:6px 6px 22px;
-    scroll-snap-type:x mandatory;
-  }
-  .gallery-strip::-webkit-scrollbar{height:6px;}
-  .gallery-strip::-webkit-scrollbar-thumb{background:var(--border); border-radius:10px;}
-
-  .gtile{
-    position:relative;
-    flex:0 0 240px;
-    height:300px;
-    border-radius:16px;
-    overflow:hidden;
-    border:1px solid var(--border);
-    scroll-snap-align:start;
-    cursor:pointer;
-    background:linear-gradient(160deg, var(--surface-solid), #0d1220);
-  }
-  .gtile img{
-    width:100%; height:100%; object-fit:cover;
-    position:absolute; inset:0;
-  }
-  .gtile .ph{
-    position:absolute; inset:0;
-    display:flex; flex-direction:column;
-    align-items:center; justify-content:center;
-    gap:10px;
-    color:var(--text-faint);
-    text-align:center;
-    padding:20px;
-  }
-  .gtile .ph svg{opacity:0.5;}
-  .gtile .ph span{font-size:0.8rem; font-family:'IBM Plex Mono', monospace;}
-  .gtile .cap{
-    position:absolute; left:0; right:0; bottom:0;
-    padding:14px 16px;
-    background:linear-gradient(0deg, rgba(0,0,0,0.75), transparent);
-    font-size:0.82rem;
-    color:var(--text);
-  }
-  .gtile input[type=file]{
-    position:absolute; inset:0;
-    opacity:0; cursor:pointer;
-  }
 
   /* ---------- CERTS ---------- */
   .cert-grid{
@@ -704,7 +724,6 @@
       <li><a href="#projects">Research</a></li>
       <li><a href="#credentials">Credentials</a></li>
       <li><a href="#skills">Skills</a></li>
-      <li><a href="#gallery">Field Notes</a></li>
     </ul>
     <a class="nav-cta" href="Kaif_Hazarika_CV.pdf" download>Download CV</a>
     <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false"><span></span></button>
@@ -718,7 +737,6 @@
     <li><a href="#projects">Research</a></li>
     <li><a href="#credentials">Credentials</a></li>
     <li><a href="#skills">Skills</a></li>
-    <li><a href="#gallery">Field Notes</a></li>
     <li><a href="Kaif_Hazarika_CV.pdf" download>Download CV ↓</a></li>
   </ul>
 </div>
@@ -756,6 +774,7 @@
       <div class="hero-actions">
         <a class="btn btn-primary" href="Kaif_Hazarika_CV.pdf" download>Download CV</a>
         <a class="btn btn-ghost" href="https://www.linkedin.com/in/kaif-hazarika/" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a class="btn btn-ghost" href="mailto:kaifhazarika@gmail.com">Email ↗</a>
         <a class="btn btn-ghost" href="https://github.com/kaifhazarika" target="_blank" rel="noopener">GitHub ↗</a>
       </div>
     </div>
@@ -779,12 +798,12 @@
       <h2 style="font-size:clamp(1.6rem,3vw,2.1rem); margin-bottom:20px;">A physicist working the boundary between upper-atmosphere research and applied systems.</h2>
       <p>My research foundation is in <strong>upper-atmosphere and space physics</strong> — built through undergraduate and postgraduate work on thermospheric wind response to geomagnetic storms, and equatorial <strong>E×B drift</strong> dynamics using C/NOFS satellite data.</p>
       <p>That foundation extends outward: a state-government <strong>Climate Resilient Village Fellowship</strong> and a satellite-data case study on climate change's effect on rural livelihoods took me into applied climate research, while an ongoing <strong>Master's in Library &amp; Information Science</strong> and two filed patent applications took me into information systems and applied engineering.</p>
-      <p>I move comfortably between physical modeling, scientific computing, and applied data analysis — working in <strong>Python, Fortran, C++, and Java</strong>, with domain tools spanning <strong>MRST-co2lab, GNOME, Grapher, GPS-X,</strong> and <strong>Design-Expert</strong>.</p>
+      <p>I move comfortably between physical modeling, scientific computing, and applied data analysis — working in Python, Fortran, C++, Java, HTML, CSS, Java Script with domain tools spanning Matlab, MRST-co2lab, GNOME, Grapher, GPS-X, and Design-Expert.</p>
     </div>
     <div class="stat-grid reveal">
       <div class="stat"><div class="num">78–82%</div><div class="label">Academic grade range, Physics &amp; allied diplomas</div></div>
       <div class="stat"><div class="num">2</div><div class="label">Patent applications filed (2024, 2026)</div></div>
-      <div class="stat"><div class="num">5</div><div class="label">Independent research projects</div></div>
+      <div class="stat"><div class="num">6</div><div class="label">Independent research projects</div></div>
       <div class="stat"><div class="num">9.4</div><div class="label">CGPA — Oil Well Drilling Technology</div></div>
     </div>
   </div>
@@ -838,10 +857,10 @@
       </div>
 
       <div class="tl-item">
-        <span class="when mono">2018 – 2024</span>
+        <span class="when mono">2018 – 2023</span>
         <h3>BSc &amp; Integrated MSc, Physics</h3>
         <div class="org">Dibrugarh University · 79.8% / 78%</div>
-        <div class="desc">Core research years — thermospheric wind response to geomagnetic storms, and equatorial E×B drift using C/NOFS satellite data.</div>
+        <div class="desc">Core research years — dissertation on thermospheric wind response to geomagnetic storms (Supervisor: Dr. B. R. Kalita, Dept. of Physics), and equatorial E×B drift using C/NOFS satellite data.</div>
       </div>
 
       <div class="tl-item">
@@ -909,20 +928,15 @@
 <section id="projects">
   <div class="wrap">
     <div class="eyebrow reveal">Research Projects</div>
-    <h2 class="reveal" style="font-size:clamp(1.6rem,3vw,2.1rem); margin-bottom:36px;">Five investigations, one throughline: systems in motion.</h2>
-
-    <div class="card card-featured reveal" style="margin-bottom:20px;">
-      <span class="idx">Featured</span>
-      <h3>Investigating Climate Change's Effects on Rural Livelihoods</h3>
-      <p style="margin-bottom:10px;">Case study of Bhojo Village · PGDRD Research Project (MRDP-205), IGNOU, 2025 · Supervised by Dr. Murchana Gogoi, Dept. of Sociology, Silapathar College</p>
-      <p>Paired household-survey fieldwork with satellite-derived analysis of temperature trends, precipitation patterns, and greenhouse-gas concentrations to assess how a changing climate is reshaping a rural community's livelihood.</p>
-    </div>
+    <h2 class="reveal" style="font-size:clamp(1.6rem,3vw,2.1rem); margin-bottom:36px;">Six investigations, one throughline: systems in motion.</h2>
 
     <div class="grid-2">
-      <div class="card reveal"><span class="idx">01</span><h3>Thermosphere Meridional Wind Response</h3><p>Investigated how thermospheric meridional winds responded to the geomagnetic storm of November 2021.</p></div>
-      <div class="card reveal"><span class="idx">02</span><h3>Vertical E×B Drift Velocity Variations</h3><p>Analyzed equatorial drift-velocity variation using C/NOFS satellite observation data.</p></div>
-      <div class="card reveal"><span class="idx">03</span><h3>Climate Change: Adaptation &amp; Sustainability</h3><p>Examined mitigation and adaptation strategy design for climate-vulnerable communities.</p></div>
-      <div class="card reveal"><span class="idx">04</span><h3>Climate Data Handling &amp; Prediction</h3><p>Built and evaluated approaches for processing and forecasting climate datasets.</p></div>
+      <div class="card reveal"><span class="idx">01</span><h3>Investigating Climate Change's Effects on Rural Livelihoods</h3><p>PGDRD research project assessing climate change impacts on Bhojo Village livelihoods using household surveys and satellite data analysis. Supervisor: Dr. Murchana Gogoi, Dept. of Sociology, Silapathar College.</p></div>
+      <div class="card reveal"><span class="idx">02</span><h3>Thermosphere Meridional Wind Response</h3><p>Integrated MSc dissertation on thermospheric meridional wind response to the geomagnetic storm of November 2021. Supervisor: Dr. B. R. Kalita, Dept. of Physics, Dibrugarh University.</p></div>
+      <div class="card reveal"><span class="idx">03</span><h3>Vertical E×B Drift Velocity Variations</h3><p>Analyzed equatorial drift-velocity variation using C/NOFS satellite observation data.</p></div>
+      <div class="card reveal"><span class="idx">04</span><h3>Climate Change: Adaptation &amp; Sustainability</h3><p>Examined mitigation and adaptation strategy design for climate-vulnerable communities.</p></div>
+      <div class="card reveal"><span class="idx">05</span><h3>Climate Data Handling &amp; Prediction</h3><p>Built and evaluated approaches for processing and forecasting climate datasets.</p></div>
+      <div class="card reveal"><span class="idx">06</span><h3>Impact of ICT on Library and Information Services</h3><p>MLIS project on the impact of ICT on library and information services at the Central Library of ADP College, Nagaon, Assam. Supervisor: Hrishikesh Bhuyan, Librarian, Anandaram Dhekial Phookan College.</p></div>
     </div>
   </div>
 </section>
@@ -932,40 +946,32 @@
   <div class="wrap">
     <div class="eyebrow reveal">Credentials on Record</div>
     <h2 class="reveal" style="font-size:clamp(1.6rem,3vw,2.1rem); margin-bottom:12px;">Documents that back up the claims.</h2>
-    <p class="reveal" style="color:var(--text-muted); max-width:60ch; margin-bottom:34px;"> </p>
-
     <div class="doc-grid">
+      <div class="doc-card reveal">
+        <div class="doc-frame">
+          <img src="assets/documents/patent-i-carbon-emission.png" alt="Patent application publication for A System for Estimating Carbon Emission and Offsetting">
+          <span class="doc-real-badge">On file</span>
+        </div>
+        <h4>Patent I — Carbon Emission Estimation &amp; Offsetting</h4>
+        <div class="doc-meta">App No. 202441065196 · Filed 6 Sep 2024 · Published 13 Sep 2024</div>
+      </div>
+
       <div class="doc-card reveal">
         <div class="doc-frame">
           <img src="assets/documents/patent-ii-hardware-system.png" alt="Patent application publication for A Hardware-Integrated Offline User and Inventory Management System">
           <span class="doc-real-badge">On file</span>
         </div>
         <h4>Patent II — Hardware-Integrated Offline System</h4>
-        <div class="doc-meta">App No. 202631066962 · Published 12 Jun 2026</div>
+        <div class="doc-meta">App No. 202631066962 · Filed 28 May 2026 · Published 12 Jun 2026</div>
       </div>
 
       <div class="doc-card reveal">
-        <div class="doc-frame" id="docFrame1">
-          <div class="doc-empty">
-            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 7h8M8 11h8M8 15h5"/></svg>
-            <span>Click to add the scan<br>for this patent entry</span>
-          </div>
-          <input type="file" accept="image/*" data-target="docFrame1" title="Preview a document scan here (local only, not saved)">
-        </div>
-        <h4>Patent I — Carbon Emission Estimation &amp; Offsetting</h4>
-        <div class="doc-meta">App No. 202441065196 · Published 6 Sep 2024</div>
-      </div>
-
-      <div class="doc-card reveal">
-        <div class="doc-frame" id="docFrame2">
-          <div class="doc-empty">
-            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 7h8M8 11h8M8 15h5"/></svg>
-            <span>Click to add the scan<br>for this fellowship</span>
-          </div>
-          <input type="file" accept="image/*" data-target="docFrame2" title="Preview a certificate scan here (local only, not saved)">
+        <div class="doc-frame">
+          <img src="assets/documents/fellowship-certificate.jpg" alt="Certificate of Completion, Chief Minister's Climate Resilient Village Fellowship, awarded to Kaif Hazarika">
+          <span class="doc-real-badge">On file</span>
         </div>
         <h4>Chief Minister's Climate Resilient Village Fellowship</h4>
-        <div class="doc-meta">Assam Science Technology &amp; Environment Council · Mar 2023 – Feb 2024</div>
+        <div class="doc-meta">Assam Science Technology &amp; Environment Council · Awarded 28 Feb 2024</div>
       </div>
     </div>
   </div>
@@ -990,9 +996,21 @@
       </div>
     </div>
     <div class="skill-block reveal">
+      <h4>Remote Sensing &amp; Geospatial Tools</h4>
+      <div class="pill-row">
+        <span class="pill">NASA Giovanni</span><span class="pill">Google Earth Engine</span><span class="pill">NASA Worldview</span><span class="pill">Panoply</span><span class="pill">QGIS</span>
+      </div>
+    </div>
+    <div class="skill-block reveal">
+      <h4>Data Science &amp; AI</h4>
+      <div class="pill-row">
+        <span class="pill">Python (NumPy, Pandas, Matplotlib)</span><span class="pill">Machine Learning (scikit-learn)</span><span class="pill">Applied Statistics</span><span class="pill">Data-Driven Climate Modeling</span>
+      </div>
+    </div>
+    <div class="skill-block reveal">
       <h4>Library &amp; Information Science</h4>
       <div class="pill-row">
-        <span class="pill">Information Organization &amp; Cataloguing</span><span class="pill">ICT in Libraries</span><span class="pill">Information Retrieval Systems</span><span class="pill">Library &amp; Information Centre Management</span><span class="pill">Research Methodology</span><span class="pill">Technical Writing</span>
+        <span class="pill">Koha (ILS)</span><span class="pill">DSpace (Institutional Repository)</span><span class="pill">MARC21 Cataloguing</span><span class="pill">DDC Classification</span><span class="pill">Circulation &amp; Patron Management</span><span class="pill">Information Retrieval Systems</span><span class="pill">Research Methodology</span><span class="pill">Technical Writing</span>
       </div>
     </div>
     <div class="skill-block reveal">
@@ -1004,21 +1022,8 @@
     <div class="skill-block reveal">
       <h4>Engineering Simulation &amp; Visualization</h4>
       <div class="pill-row">
-        <span class="pill">Halliburton Landmark WellPlan™</span><span class="pill">MRST-co2lab</span><span class="pill">Mudware</span><span class="pill">GNOME</span><span class="pill">GPS-X</span><span class="pill">STOAT</span><span class="pill">Design-Expert</span><span class="pill">Grapher</span><span class="pill">LaTeX</span><span class="pill">Excel</span><span class="pill">Photoshop</span><span class="pill">Unity</span>
+        <span class="pill">Matlab</span><span class="pill">Halliburton Landmark WellPlan™</span><span class="pill">MRST-co2lab</span><span class="pill">Mudware</span><span class="pill">GNOME</span><span class="pill">GPS-X</span><span class="pill">STOAT</span><span class="pill">Design-Expert</span><span class="pill">Grapher</span><span class="pill">LaTeX</span><span class="pill">Excel</span><span class="pill">Photoshop</span><span class="pill">Unity</span>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= GALLERY ================= -->
-<section id="gallery">
-  <div class="wrap">
-    <div class="eyebrow reveal">Field Notes</div>
-    <h2 class="reveal" style="font-size:clamp(1.6rem,3vw,2.1rem); margin-bottom:12px;">A few frames from the field.</h2>
-    <p class="reveal" style="color:var(--text-muted); max-width:56ch; margin-bottom:34px;"> </p>
-
-    <div class="gallery-strip reveal" id="galleryStrip">
-      <!-- tiles generated by JS -->
     </div>
   </div>
 </section>
@@ -1056,9 +1061,18 @@
         <a href="Kaif_Hazarika_CV.pdf" download>Download CV</a>
       </div>
     </div>
-    <div class="footer-credit"> </div>
+    <div class="footer-credit"></div>
   </div>
 </footer>
+
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Close">&times;</button>
+  <img id="lightboxImg" src="" alt="">
+</div>
+
+<button class="back-to-top" id="backToTop" aria-label="Back to top">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
 
 <script>
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1173,75 +1187,30 @@ if(!reduceMotion && window.matchMedia('(hover:hover)').matches){
   });
 }
 
-// ---------- Credential document upload previews ----------
-document.querySelectorAll('#credentials input[type=file]').forEach(input=>{
-  input.addEventListener('change', (e)=>{
-    const file = e.target.files[0];
-    if(!file) return;
-    const frame = document.getElementById(input.dataset.target);
-    const url = URL.createObjectURL(file);
-    let img = frame.querySelector('img');
-    if(!img){
-      img = document.createElement('img');
-      frame.prepend(img);
-    }
-    img.src = url;
-    frame.querySelector('.doc-empty').style.display = 'none';
+// ---------- Document lightbox ----------
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightboxImg');
+const lightboxClose = document.getElementById('lightboxClose');
+
+document.querySelectorAll('.doc-frame img').forEach(img=>{
+  img.addEventListener('click', ()=>{
+    lightboxImg.src = img.src;
+    lightboxImg.alt = img.alt;
+    lightbox.classList.add('open');
   });
 });
+function closeLightbox(){ lightbox.classList.remove('open'); lightboxImg.src=''; }
+lightboxClose.addEventListener('click', closeLightbox);
+lightbox.addEventListener('click', (e)=>{ if(e.target === lightbox) closeLightbox(); });
+window.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeLightbox(); });
 
-// ---------- Gallery: placeholder tiles + local-preview upload ----------
-// To make a photo PERMANENT: drop the file in /assets/gallery/ and add
-// an `img: 'assets/gallery/yourfile.jpg'` property to that entry below.
-// Entries WITHOUT an `img` stay as click-to-preview placeholders (the
-// preview is local to the visitor's browser only — it is not saved).
-const galleryData = [
-  {label:'Rig Site Visit', hint:'Add: OIL drilling rig, Jan 2024'},
-  {label:'Fellowship Fieldwork', hint:'Add: CM Climate Fellowship, 2023'},
-  {label:'SPE Volunteering', hint:'Add: SPE South Asia contest, 2024'},
-  {label:'Workshop / Conference', hint:'Add: Plasma physics workshop'},
-  {label:'Convocation', hint:'Add: Graduation day'},
-  {label:'Your Next Photo', hint:'Click to preview an image here'},
-];
-
-const strip = document.getElementById('galleryStrip');
-galleryData.forEach((item)=>{
-  const tile = document.createElement('div');
-  tile.className = 'gtile';
-
-  if(item.img){
-    tile.innerHTML = `
-      <img src="${item.img}" alt="${item.label}">
-      <div class="cap">${item.label}</div>
-    `;
-  } else {
-    tile.innerHTML = `
-      <div class="ph">
-        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
-          <rect x="3" y="5" width="18" height="14" rx="2"/>
-          <circle cx="8.5" cy="10" r="1.6"/>
-          <path d="M21 16l-5-5-4 4-3-3-6 6"/>
-        </svg>
-        <span>${item.hint}</span>
-      </div>
-      <input type="file" accept="image/*" title="Preview a photo here (local only, not saved)">
-      <div class="cap">${item.label}</div>
-    `;
-    const input = tile.querySelector('input');
-    input.addEventListener('change', (e)=>{
-      const file = e.target.files[0];
-      if(!file) return;
-      const url = URL.createObjectURL(file);
-      let img = tile.querySelector('img');
-      if(!img){
-        img = document.createElement('img');
-        tile.prepend(img);
-      }
-      img.src = url;
-      tile.querySelector('.ph').style.display = 'none';
-    });
-  }
-  strip.appendChild(tile);
+// ---------- Back to top ----------
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', ()=>{
+  backToTop.classList.toggle('visible', window.scrollY > 900);
+}, {passive:true});
+backToTop.addEventListener('click', ()=>{
+  window.scrollTo({top:0, behavior: reduceMotion ? 'auto' : 'smooth'});
 });
 </script>
 
